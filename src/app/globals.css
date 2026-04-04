@@ -266,10 +266,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 header { animation: navSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 
-/* ── Hero heading responsive font (Syne is wide — keep in CSS, not inline) ── */
-.hero-heading { font-size: clamp(2rem, 4vw, 4.5rem); }       /* desktop: 55% panel */
+/* ── Hero heading (Syne is wide — no maxWidth container, cap at 4rem) ── */
+.hero-heading { font-size: clamp(2rem, 4vw, 4rem); }
 @media (max-width: 900px) {
-  .hero-heading { font-size: clamp(1.4rem, 6.5vw, 3.5rem); } /* mobile: 100% panel */
+  .hero-heading { font-size: clamp(1.35rem, 6.5vw, 3.5rem); }
 }
 
 /* ── Hero image panel responsive ── */
@@ -311,6 +311,21 @@ header { animation: navSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 .bc-3:hover .bento-card-border,
 .bc-4:hover .bento-card-border {
   border-color: rgba(109,40,217,0.4) !important;
+}
+
+/* ── Services card grid ── */
+.service-card-v2 { transition: background 0.3s; }
+.service-card-v2:hover { background: #181614 !important; }
+
+.svc-bar {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.42s cubic-bezier(0.16,1,0.3,1);
+}
+.service-card-v2:hover .svc-bar { transform: scaleY(1); }
+
+@media (max-width: 640px) {
+  .services-grid { grid-template-columns: 1fr !important; }
 }
 
 /* ── Dark project card hover ── */

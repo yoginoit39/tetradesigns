@@ -15,13 +15,13 @@ export default function AnimatedHero() {
 
     tl.from('.hero-label-line', { scaleX: 0, transformOrigin: 'left', duration: 0.7 })
       .from('.hero-label-text', { opacity: 0, x: -12, duration: 0.5 }, '-=0.3')
-      .from('.hero-word', { y: '110%', opacity: 0, duration: 0.9, stagger: 0.12 }, '-=0.2')
+      .from('.hero-word', { y: 40, opacity: 0, duration: 0.9, stagger: 0.12 }, '-=0.2')
       .from('.hero-desc', { opacity: 0, y: 24, duration: 0.7 }, '-=0.4')
       .from('.hero-btn', { opacity: 0, y: 20, duration: 0.6, stagger: 0.1 }, '-=0.4');
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} style={{ maxWidth: '560px', width: '100%' }}>
+    <div ref={containerRef} style={{ width: '100%' }}>
       {/* Label */}
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.75rem' }}>
         <span className="hero-label-line" style={{ width: '36px', height: '1px', background: '#6D28D9', display: 'block', flexShrink: 0 }} />
@@ -46,7 +46,7 @@ export default function AnimatedHero() {
           { text: "Uganda's", color: '#A78BFA' },
           { text: 'Infrastructure', color: '#F2EDE6' },
         ].map(({ text, color }) => (
-          <span key={text} style={{ overflow: 'hidden', display: 'block' }}>
+          <span key={text} style={{ display: 'block', whiteSpace: 'nowrap' }}>
             <span className="hero-word" style={{ display: 'block', color }}>{text}</span>
           </span>
         ))}

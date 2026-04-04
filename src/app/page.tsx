@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { services, projects, stats } from '@/lib/data';
+import { projects, stats } from '@/lib/data';
 import AnimatedHero from '@/components/AnimatedHero';
 import ScrollReveal from '@/components/ScrollReveal';
 import CountUpStat from '@/components/CountUpStat';
 import Marquee from '@/components/Marquee';
 import HeroBuildingLoader from '@/components/three/HeroBuildingLoader';
 import BentoProjectsGallery from '@/components/BentoProjectsGallery';
+import ServicesSection from '@/components/ServicesSection';
 
 export const metadata: Metadata = {
   title: 'Civil & Structural Engineering Uganda | 30+ Years of Excellence',
@@ -130,64 +131,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SERVICES ──────────────────────────────────── */}
-      <section
-        style={{ background: '#FFFFFF', position: 'relative', zIndex: 1, borderTop: '1px solid rgba(0,0,0,0.06)' }}
-        className="r-section"
-      >
-        <div className="r-container">
-          <ScrollReveal direction="up">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem', flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                  <span style={{ width: '30px', height: '2px', background: '#6D28D9' }} />
-                  <span style={{ fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#6D28D9', fontWeight: 500 }}>What We Do</span>
-                </div>
-                <h2 style={{ fontFamily: 'var(--font-oswald), sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, textTransform: 'uppercase', color: '#0C0A09' }}>Our Services</h2>
-              </div>
-              <p style={{ color: '#6A707C', fontSize: '0.82rem', maxWidth: '320px', lineHeight: 1.7 }}>
-                Four decades of Uganda infrastructure — every discipline, one team.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)' }}>
-            {services.map((service, i) => (
-              <ScrollReveal key={service.id} delay={i * 60} direction="up">
-                <div className="service-row-grid" style={{ padding: '3rem 0', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
-                  <div style={{
-                    fontFamily: 'var(--font-oswald), sans-serif',
-                    fontSize: '3.5rem', fontWeight: 800,
-                    color: 'rgba(109,40,217,0.08)', lineHeight: 1,
-                    letterSpacing: '-0.02em',
-                  }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-                  <div>
-                    <h3 style={{
-                      fontFamily: 'var(--font-oswald), sans-serif',
-                      fontSize: 'clamp(1rem, 3.5vw, 1.4rem)', fontWeight: 700,
-                      textTransform: 'uppercase', color: '#0C0A09',
-                      marginBottom: '0.9rem', letterSpacing: '0.03em',
-                      overflowWrap: 'break-word', wordBreak: 'break-word',
-                    }}>{service.title}</h3>
-                    <p style={{ color: '#6A707C', fontSize: '0.875rem', lineHeight: 1.8, maxWidth: '360px' }}>
-                      {service.description}
-                    </p>
-                  </div>
-                  <div className="service-items" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.55rem 2rem' }}>
-                    {service.items.map(item => (
-                      <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', color: '#3C4250', fontSize: '0.83rem' }}>
-                        <span style={{ width: '4px', height: '4px', background: '#6D28D9', borderRadius: '50%', flexShrink: 0 }} />
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServicesSection />
 
       {/* ── FEATURED PROJECTS — scrubbed bento gallery ── */}
       <BentoProjectsGallery />

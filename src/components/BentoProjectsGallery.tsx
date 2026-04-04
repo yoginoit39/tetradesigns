@@ -156,27 +156,27 @@ export default function BentoProjectsGallery() {
 
     /* Section label line draws in */
     tl.from('.bento-label-line', { scaleX: 0, transformOrigin: 'left', duration: 1.5 });
-    tl.from('.bento-header-text', { opacity: 0, y: 20, duration: 2 }, '-=1');
-    tl.from('.bento-header-link', { opacity: 0, x: 20, duration: 2 }, '-=1.5');
+    tl.from('.bento-header-text', { y: 20, duration: 2 }, '-=1');
+    tl.from('.bento-header-link', { x: 20, duration: 2 }, '-=1.5');
 
-    /* Cards enter staggered */
+    /* Cards enter staggered — no opacity so they're always visible */
     tl.from('.bc-1', {
-      scale: 0.88, opacity: 0,
+      scale: 0.9,
       duration: 5, ease: 'power2.out',
     }, '-=1');
 
     tl.from('.bc-2', {
-      x: 80, opacity: 0,
+      x: 80,
       duration: 3.5, ease: 'power2.out',
     }, '-=4');
 
     tl.from('.bc-3', {
-      x: 80, y: -40, opacity: 0,
+      x: 80, y: -40,
       duration: 3.5, ease: 'power2.out',
     }, '-=3');
 
     tl.from('.bc-4', {
-      y: 80, opacity: 0,
+      y: 80,
       duration: 3.5, ease: 'power2.out',
     }, '-=3');
 
