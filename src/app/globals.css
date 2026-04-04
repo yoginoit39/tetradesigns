@@ -282,27 +282,19 @@ header { animation: navSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 }
 
 /* ── Bento gallery ── */
-.bento-section { height: 100svh; }
+.bento-section { position: relative; }
 
 @media (max-width: 900px) {
-  .bento-section {
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 4rem 1.25rem 3rem;
-  }
   .bento-grid {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto !important;
-    height: auto !important;
   }
   .bento-grid > * {
     grid-column: 1 !important;
     grid-row: auto !important;
-    height: 55vw !important;
+    height: 60vw !important;
     min-height: 240px;
   }
-  /* Cards visible without animation on mobile */
-  .bc-1, .bc-2, .bc-3, .bc-4 { opacity: 1 !important; transform: none !important; }
 }
 
 /* Hover glow on bento cards */
