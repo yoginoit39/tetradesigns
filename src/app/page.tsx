@@ -1,65 +1,267 @@
-import Image from "next/image";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import { services, projects, stats } from '@/lib/data';
+import AnimatedHero from '@/components/AnimatedHero';
+import ScrollReveal from '@/components/ScrollReveal';
+import CountUpStat from '@/components/CountUpStat';
+import Marquee from '@/components/Marquee';
+import HeroBuildingLoader from '@/components/three/HeroBuildingLoader';
+import BentoProjectsGallery from '@/components/BentoProjectsGallery';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'Civil & Structural Engineering Uganda | 30+ Years of Excellence',
+  description:
+    'Tetra Design & Concepts — Uganda\'s trusted civil and structural engineering firm since 1994. Delivering roads, bridges, buildings, and water infrastructure across Uganda.',
+  alternates: { canonical: 'https://tetradesignandconcepts.com' },
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* ── HERO ──────────────────────────────────────── */}
+      <section style={{
+        height: '100svh', minHeight: '640px',
+        position: 'relative', zIndex: 1,
+        overflow: 'hidden', background: '#0C0A09',
+      }}>
+        {/* Blueprint grid texture on dark bg */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }} />
+
+        {/* Right panel — Three.js wireframe building construction */}
+        <div className="hero-image-panel" style={{
+          position: 'absolute', top: 0, right: 0, bottom: 0, width: '45%',
+          overflow: 'hidden',
+        }}>
+          <HeroBuildingLoader />
+          {/* Soft left-edge blend into the dark text panel */}
+          <div style={{
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            background: 'linear-gradient(to right, #0C0A09 0%, rgba(12,10,9,0.1) 15%, transparent 40%)',
+          }} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Left text panel */}
+        <div className="hero-text-panel" style={{
+          position: 'relative', zIndex: 2,
+          height: '100%',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+          padding: '0 clamp(2rem, 4vw, 5rem)',
+          paddingTop: '72px', paddingBottom: '3rem',
+        }}>
+          <AnimatedHero />
+          <div style={{
+            position: 'absolute', bottom: '2.5rem', left: 'clamp(2rem, 4vw, 5rem)',
+            display: 'flex', alignItems: 'center', gap: '0.75rem',
+          }}>
+            <div className="scroll-hint-arrow">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3v10M3 9l5 5 5-5" stroke="rgba(230,220,208,0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span style={{
+              fontSize: '0.58rem', letterSpacing: '0.22em', color: 'rgba(230,220,208,0.28)',
+              textTransform: 'uppercase', fontFamily: 'var(--font-barlow), sans-serif',
+            }}>Scroll</span>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* ── MARQUEE ───────────────────────────────────── */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Marquee />
+      </div>
+
+      {/* ── STATS BAR ─────────────────────────────────── */}
+      <section
+        style={{
+          background: '#F2EDE6',
+          position: 'relative', zIndex: 1,
+          borderTop: '3px solid #6D28D9',
+          borderBottom: '1px solid rgba(0,0,0,0.07)',
+        }}
+        className="r-section-sm"
+      >
+        <div className="r-container r-grid-stats">
+          {stats.map((stat, i) => (
+            <ScrollReveal key={stat.label} delay={i * 100} direction="up">
+              <CountUpStat value={stat.value} label={stat.label} />
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SHOWREEL ──────────────────────────────────── */}
+      <section style={{ position: 'relative', zIndex: 1, overflow: 'hidden' }}>
+        <div className="showreel-ratio" style={{ position: 'relative', width: '100%', background: '#0C0A09' }}>
+          <video autoPlay muted loop playsInline style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+          }}>
+            <source src="/video.mov" type="video/quicktime" />
+            <source src="/video.mov" type="video/mp4" />
+          </video>
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.5) 100%)',
+          }} />
+          <div style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.9rem',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <span style={{ width: '36px', height: '1px', background: 'rgba(255,255,255,0.35)' }} />
+              <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.62rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>Showreel</span>
+              <span style={{ width: '36px', height: '1px', background: 'rgba(255,255,255,0.35)' }} />
+            </div>
+            <h2 style={{
+              fontFamily: 'var(--font-oswald), sans-serif',
+              fontSize: 'clamp(1.5rem, 4vw, 3.5rem)',
+              fontWeight: 700, textTransform: 'uppercase',
+              color: '#FFFFFF', textAlign: 'center', lineHeight: 1,
+              padding: '0 1rem',
+            }}>Engineering in Motion</h2>
+          </div>
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3px', background: '#6D28D9' }} />
+        </div>
+      </section>
+
+      {/* ── SERVICES ──────────────────────────────────── */}
+      <section
+        style={{ background: '#FFFFFF', position: 'relative', zIndex: 1, borderTop: '1px solid rgba(0,0,0,0.06)' }}
+        className="r-section"
+      >
+        <div className="r-container">
+          <ScrollReveal direction="up">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem', flexWrap: 'wrap', gap: '1rem' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                  <span style={{ width: '30px', height: '2px', background: '#6D28D9' }} />
+                  <span style={{ fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#6D28D9', fontWeight: 500 }}>What We Do</span>
+                </div>
+                <h2 style={{ fontFamily: 'var(--font-oswald), sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, textTransform: 'uppercase', color: '#0C0A09' }}>Our Services</h2>
+              </div>
+              <p style={{ color: '#6A707C', fontSize: '0.82rem', maxWidth: '320px', lineHeight: 1.7 }}>
+                Four decades of Uganda infrastructure — every discipline, one team.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)' }}>
+            {services.map((service, i) => (
+              <ScrollReveal key={service.id} delay={i * 60} direction="up">
+                <div className="service-row-grid" style={{ padding: '3rem 0', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+                  <div style={{
+                    fontFamily: 'var(--font-oswald), sans-serif',
+                    fontSize: '3.5rem', fontWeight: 800,
+                    color: 'rgba(109,40,217,0.08)', lineHeight: 1,
+                    letterSpacing: '-0.02em',
+                  }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div>
+                    <h3 style={{
+                      fontFamily: 'var(--font-oswald), sans-serif',
+                      fontSize: 'clamp(1rem, 3.5vw, 1.4rem)', fontWeight: 700,
+                      textTransform: 'uppercase', color: '#0C0A09',
+                      marginBottom: '0.9rem', letterSpacing: '0.03em',
+                      overflowWrap: 'break-word', wordBreak: 'break-word',
+                    }}>{service.title}</h3>
+                    <p style={{ color: '#6A707C', fontSize: '0.875rem', lineHeight: 1.8, maxWidth: '360px' }}>
+                      {service.description}
+                    </p>
+                  </div>
+                  <div className="service-items" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.55rem 2rem' }}>
+                    {service.items.map(item => (
+                      <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', color: '#3C4250', fontSize: '0.83rem' }}>
+                        <span style={{ width: '4px', height: '4px', background: '#6D28D9', borderRadius: '50%', flexShrink: 0 }} />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURED PROJECTS — scrubbed bento gallery ── */}
+      <BentoProjectsGallery />
+
+      {/* ── WHY TETRA ─────────────────────────────────── */}
+      <section
+        style={{ background: '#F2EDE6', position: 'relative', zIndex: 1 }}
+        className="r-section"
+      >
+        <div className="r-container">
+          <ScrollReveal direction="up" style={{ marginBottom: '2.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ width: '30px', height: '2px', background: '#6D28D9' }} />
+              <span style={{ fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#6D28D9', fontWeight: 500 }}>Why Choose Us</span>
+            </div>
+          </ScrollReveal>
+          <div className="r-grid-why" style={{ border: '1px solid rgba(0,0,0,0.07)' }}>
+            {[
+              { num: '01', title: 'On Time', body: 'We have a 100% on-time delivery record across 200+ projects. Schedules are commitments, not estimates.' },
+              { num: '02', title: 'To Budget', body: 'Accurate cost estimation from day one. No surprise overruns. Your budget is respected.' },
+              { num: '03', title: 'Fully Licensed', body: 'Fully registered and licensed engineers operating to the highest professional standards in Uganda.' },
+              { num: '04', title: 'Local Expertise', body: 'Deep knowledge of Ugandan terrain, regulation, and construction practice built over 30 years.' },
+            ].map((item, i) => (
+              <ScrollReveal key={item.num} delay={i * 80} direction="up">
+                <div className="card-dark" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.05)', padding: '2.5rem', height: '100%' }}>
+                  <div style={{ fontFamily: 'var(--font-oswald), sans-serif', fontSize: '2rem', fontWeight: 700, color: 'rgba(109,40,217,0.1)', marginBottom: '0.75rem' }}>{item.num}</div>
+                  <h3 style={{ fontFamily: 'var(--font-oswald), sans-serif', fontSize: '1.1rem', fontWeight: 600, textTransform: 'uppercase', color: '#6D28D9', marginBottom: '0.65rem', letterSpacing: '0.06em' }}>{item.title}</h3>
+                  <p style={{ color: '#6A707C', fontSize: '0.875rem', lineHeight: 1.7 }}>{item.body}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── INVERTED MARQUEE ─────────────────────────── */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Marquee inverted />
+      </div>
+
+      {/* ── CTA BAND ──────────────────────────────────── */}
+      <section style={{
+        background: '#6D28D9', textAlign: 'center',
+        position: 'relative', zIndex: 1, overflow: 'hidden',
+        padding: 'clamp(3.5rem, 8vw, 6rem) 1.5rem',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.025) 20px, rgba(255,255,255,0.025) 21px)',
+        }} />
+        <ScrollReveal direction="up" style={{ position: 'relative' }}>
+          <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+            <h2 style={{
+              fontFamily: 'var(--font-oswald), sans-serif',
+              fontSize: 'clamp(1.8rem, 5vw, 3.5rem)',
+              fontWeight: 700, textTransform: 'uppercase',
+              color: '#FFFFFF', marginBottom: '1rem',
+            }}>
+              Ready to Build Something Exceptional?
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', marginBottom: '2.5rem', fontFamily: 'var(--font-barlow), sans-serif' }}>
+              Bring your construction project to life with Uganda&apos;s most experienced engineering team.
+            </p>
+            <Link href="/contact" style={{
+              background: '#FFFFFF', color: '#6D28D9',
+              fontFamily: 'var(--font-oswald), sans-serif',
+              fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.12em',
+              textTransform: 'uppercase', padding: '1rem 2.5rem',
+              textDecoration: 'none', display: 'inline-block', borderRadius: '2px',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+            }}>Start Your Project</Link>
+          </div>
+        </ScrollReveal>
+      </section>
+    </>
   );
 }
