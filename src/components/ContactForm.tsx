@@ -8,6 +8,7 @@ type FormState = {
   phone: string;
   projectType: string;
   message: string;
+  website: string; // honeypot — real users never fill this in
 };
 
 const inputStyle: React.CSSProperties = {
@@ -50,14 +51,34 @@ export default function ContactForm() {
     phone: '',
     projectType: '',
     message: '',
+    website: '',
   });
   const [submitted, setSubmitted] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production this would POST to an API route
-    setSubmitted(true);
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setError('Something went wrong. Please try again or email us directly.');
+      }
+    } catch {
+      setError('Something went wrong. Please try again or email us directly.');
+    } finally {
+      setSending(false);
+    }
   };
 
   if (submitted) {
@@ -101,6 +122,17 @@ export default function ContactForm() {
       }}>Send a Message</h2>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        {/* Honeypot — hidden from real users, bots tend to fill every field */}
+        <input
+          type="text"
+          name="website"
+          value={form.website}
+          onChange={e => setForm({ ...form, website: e.target.value })}
+          tabIndex={-1}
+          autoComplete="off"
+          style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+          aria-hidden="true"
+        />
         {/* Name + Email row */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div>
@@ -186,10 +218,15 @@ export default function ContactForm() {
           />
         </div>
 
+        {error && (
+          <p style={{ color: '#DC2626', fontSize: '0.8rem', textAlign: 'center' }}>{error}</p>
+        )}
+
         <button
           type="submit"
+          disabled={sending}
           style={{
-            background: '#6D28D9',
+            background: sending ? '#9CA3AF' : '#6D28D9',
             color: '#ffffff',
             fontFamily: 'var(--font-oswald), Oswald, sans-serif',
             fontWeight: 600,
@@ -198,14 +235,14 @@ export default function ContactForm() {
             textTransform: 'uppercase',
             padding: '1rem 2rem',
             border: 'none',
-            cursor: 'pointer',
+            cursor: sending ? 'not-allowed' : 'pointer',
             width: '100%',
             transition: 'background 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = '#5B21B6')}
-          onMouseLeave={e => (e.currentTarget.style.background = '#6D28D9')}
+          onMouseEnter={e => { if (!sending) e.currentTarget.style.background = '#5B21B6'; }}
+          onMouseLeave={e => { if (!sending) e.currentTarget.style.background = '#6D28D9'; }}
         >
-          Send Enquiry →
+          {sending ? 'Sending…' : 'Send Enquiry →'}
         </button>
 
         <p style={{ color: '#9CA3AF', fontSize: '0.75rem', textAlign: 'center' }}>
