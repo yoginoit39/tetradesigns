@@ -24,7 +24,11 @@ if (!file_exists($configPath)) {
 }
 $config = require $configPath;
 
-$raw = file_get_contents('php://input');
+// Cap request body size — real enquiries are small, bots dump megabytes
+$raw = file_get_contents('php://input', false, null, 0, 20000);
+if (strlen($raw) >= 20000) {
+    respond(false, 'Message too large');
+}
 $data = json_decode($raw, true);
 if (!is_array($data)) {
     respond(false, 'Invalid request');
@@ -34,6 +38,34 @@ if (!is_array($data)) {
 if (!empty($data['website'])) {
     respond(true, 'Message sent'); // silently drop, pretend success
 }
+
+// Rate limit per IP — min gap between sends + hourly cap.
+// File-based counter in the system temp dir, no DB needed.
+$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$rlFile = sys_get_temp_dir() . '/tetra_contact_' . md5($ip) . '.json';
+$now = time();
+$minGap = 30;       // seconds between two submissions
+$maxPerHour = 5;    // submissions allowed per rolling hour
+$hits = [];
+if (is_readable($rlFile)) {
+    $decoded = json_decode((string)file_get_contents($rlFile), true);
+    if (is_array($decoded)) {
+        // keep only timestamps within the last hour
+        $hits = array_filter($decoded, fn($t) => is_int($t) && $t > $now - 3600);
+    }
+}
+if ($hits && ($now - max($hits)) < $minGap) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'message' => 'Please wait a moment before sending again']);
+    exit;
+}
+if (count($hits) >= $maxPerHour) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'message' => 'Too many messages. Please try again later.']);
+    exit;
+}
+$hits[] = $now;
+@file_put_contents($rlFile, json_encode(array_values($hits)), LOCK_EX);
 
 $name = trim((string)($data['name'] ?? ''));
 $email = trim((string)($data['email'] ?? ''));
@@ -46,6 +78,24 @@ if ($name === '' || $email === '' || $message === '') {
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Please provide a valid email address');
+}
+
+// Per-field length caps — block oversized junk
+if (mb_strlen($name) > 120 || mb_strlen($email) > 200 ||
+    mb_strlen($phone) > 40 || mb_strlen($projectType) > 80 ||
+    mb_strlen($message) > 5000) {
+    respond(false, 'One or more fields are too long');
+}
+
+// Header-injection guard: CR/LF in name or email means someone is
+// trying to smuggle extra mail headers through Reply-To. Reject.
+if (preg_match('/[\r\n]/', $name . $email)) {
+    respond(false, 'Invalid characters in submission');
+}
+
+// Link flood: legit enquiries rarely carry many URLs; spam does.
+if (preg_match_all('#https?://#i', $message) > 4) {
+    respond(false, 'Message flagged as spam');
 }
 
 $mail = new PHPMailer(true);
