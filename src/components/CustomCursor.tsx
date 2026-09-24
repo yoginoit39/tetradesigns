@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
 export default function CustomCursor() {
@@ -9,8 +9,17 @@ export default function CustomCursor() {
   const mouse = useRef({ x: -100, y: -100 });
   const ringPos = useRef({ x: -100, y: -100 });
   const tickerRef = useRef<(() => void) | null>(null);
+  const [enabled, setEnabled] = useState(false);
+
+  // Only run on real pointing devices, and respect reduced-motion.
+  useEffect(() => {
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setEnabled(fine && !reduced);
+  }, []);
 
   useEffect(() => {
+    if (!enabled) return;
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
@@ -30,29 +39,29 @@ export default function CustomCursor() {
     gsap.ticker.add(tick);
     tickerRef.current = tick;
 
-    const onEnter = () => gsap.to(ring, { scale: 2.8, duration: 0.4, ease: 'power2.out', borderColor: '#6D28D9', opacity: 1 });
-    const onLeave = () => gsap.to(ring, { scale: 1, duration: 0.4, ease: 'power2.out', borderColor: 'rgba(109,40,217,0.45)', opacity: 0.85 });
+    const grow = () => gsap.to(ring, { scale: 2.8, duration: 0.4, ease: 'power2.out', borderColor: '#6D28D9', opacity: 1 });
+    const shrink = () => gsap.to(ring, { scale: 1, duration: 0.4, ease: 'power2.out', borderColor: 'rgba(109,40,217,0.45)', opacity: 0.85 });
 
-    const attach = () => {
-      document.querySelectorAll('a, button').forEach(el => {
-        el.addEventListener('mouseenter', onEnter);
-        el.addEventListener('mouseleave', onLeave);
-      });
-    };
-    attach();
-
-    // Re-attach on DOM changes (dynamic content)
-    const observer = new MutationObserver(attach);
-    observer.observe(document.body, { childList: true, subtree: true });
+    // Event delegation — one pair of listeners, no per-element churn,
+    // works for content added later without re-scanning the DOM.
+    const isInteractive = (t: EventTarget | null) =>
+      t instanceof Element && !!t.closest('a, button, [role="button"], input, textarea, select');
+    const onOver = (e: MouseEvent) => { if (isInteractive(e.target)) grow(); };
+    const onOut = (e: MouseEvent) => { if (isInteractive(e.target)) shrink(); };
 
     document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseover', onOver);
+    document.addEventListener('mouseout', onOut);
 
     return () => {
       document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseover', onOver);
+      document.removeEventListener('mouseout', onOut);
       if (tickerRef.current) gsap.ticker.remove(tickerRef.current);
-      observer.disconnect();
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <>

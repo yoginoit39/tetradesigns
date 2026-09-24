@@ -61,10 +61,24 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
 }
 
-/* ── Custom cursor — hide native on pointer devices ── */
-@media (pointer: fine) {
+/* ── Custom cursor — hide native only where the custom one renders
+   (fine pointer AND motion allowed). Reduced-motion keeps native. ── */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
   *, *::before, *::after { cursor: none !important; }
 }
+/* Keep pointer affordance on clickable things regardless */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  a, button, [role="button"], label, select { cursor: none !important; }
+}
+
+/* ── Keyboard focus — visible ring (native cursor is hidden, so
+   keyboard users need a clear affordance). Not shown on mouse click. ── */
+:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) { outline: none; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
@@ -73,6 +87,49 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Selection */
 ::selection { background: var(--accent-purple); color: #fff; }
+
+/* ─────────────────────────────────────────────────
+   CANONICAL BUTTONS — one shape, consistent metrics.
+   Modifiers set color; base sets size/type/motion.
+   ───────────────────────────────────────────────── */
+.tdc-btn {
+  font-family: var(--font-oswald), 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.95rem 2.2rem;
+  border-radius: 2px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16,1,0.3,1),
+              background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.tdc-btn:hover { transform: translateY(-2px); }
+.tdc-btn:active { transform: translateY(0); }
+
+/* Solid purple — primary action on light/dark bg */
+.tdc-btn--fill { background: var(--accent-purple); color: #fff; }
+.tdc-btn--fill:hover {
+  background: var(--accent-purple-dim);
+  box-shadow: 0 10px 26px rgba(109,40,217,0.30);
+}
+
+/* Solid white — primary action on a purple band */
+.tdc-btn--invert { background: #fff; color: var(--accent-purple); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+.tdc-btn--invert:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.28); }
+
+/* Ghost outline on dark — secondary action */
+.tdc-btn--ghost-dark { border-color: rgba(230,220,208,0.24); color: rgba(230,220,208,0.8); }
+.tdc-btn--ghost-dark:hover {
+  border-color: var(--accent-purple-light);
+  color: #F2EDE6;
+  background: rgba(109,40,217,0.12);
+}
 
 /* ── Hover utility classes ── */
 .card-hover { transition: box-shadow 0.3s, border-color 0.3s; }
@@ -90,8 +147,15 @@ h1, h2, h3, h4, h5, h6 {
 .nav-link { transition: color 0.2s; }
 .nav-link:hover { color: var(--accent-purple) !important; }
 
-.btn-primary { transition: background 0.2s, transform 0.15s; }
-.btn-primary:hover { background: var(--accent-purple-dim) !important; }
+.btn-primary {
+  transition: background 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s;
+}
+.btn-primary:hover {
+  background: var(--accent-purple-dim) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(109,40,217,0.28) !important;
+}
+.btn-primary:active { transform: translateY(0); }
 
 .btn-outline { transition: border-color 0.2s, color 0.2s, background 0.2s; }
 .btn-outline:hover {
@@ -100,17 +164,25 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(109,40,217,0.10) !important;
 }
 
-.project-card { transition: box-shadow 0.3s, transform 0.3s; }
+.project-card { transition: box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1); }
 .project-card:hover {
-  box-shadow: 0 8px 32px rgba(109,40,217,0.12) !important;
-  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(109,40,217,0.16) !important;
+  transform: translateY(-5px);
 }
 
-.card-dark { transition: border-color 0.3s, background 0.3s; }
+.card-dark {
+  transition: border-color 0.3s, background 0.3s,
+              transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+}
 .card-dark:hover {
   border-color: rgba(109,40,217,0.4) !important;
-  background: rgba(109,40,217,0.04) !important;
+  background: #FFFFFF !important;
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(109,40,217,0.12) !important;
 }
+/* Number badge pops from ghost to solid purple on hover */
+.card-dark > div:first-child { transition: color 0.3s; }
+.card-dark:hover > div:first-child { color: rgba(109,40,217,0.35) !important; }
 
 /* ─────────────────────────────────────────────────
    RESPONSIVE UTILITIES
@@ -306,8 +378,18 @@ header { animation: navSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 }
 
 /* ── Services card grid ── */
-.service-card-v2 { transition: background 0.3s; }
-.service-card-v2:hover { background: #181614 !important; }
+.service-card-v2 {
+  transition: background 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s;
+}
+.service-card-v2:hover {
+  background: #181614 !important;
+  transform: translateY(-4px);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.4) !important;
+  z-index: 2;
+}
+/* Title shifts to accent light on hover */
+.service-card-v2 h3 { transition: color 0.3s; }
+.service-card-v2:hover h3 { color: #A78BFA !important; }
 
 .svc-bar {
   transform: scaleY(0);
@@ -325,4 +407,29 @@ header { animation: navSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 .project-card-dark:hover {
   transform: translateY(-3px);
   border-color: rgba(109,40,217,0.35) !important;
+}
+
+/* ─────────────────────────────────────────────────
+   REDUCED MOTION — respect the OS setting.
+   Kills scroll-jank, entrance animations, and the
+   infinite loops for users who ask for less motion.
+   ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Neutralize hover lifts so nothing jumps */
+  .btn-primary:hover,
+  .tdc-btn:hover,
+  .card-dark:hover,
+  .service-card-v2:hover,
+  .project-card:hover,
+  .project-card-dark:hover { transform: none !important; }
+  /* Section labels must not stay collapsed at width:0 */
+  .section-label-line { width: 30px !important; }
+  .scroll-hint-arrow { animation: none !important; }
 }

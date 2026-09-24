@@ -25,6 +25,12 @@ export default function ScrollReveal({
     const el = ref.current;
     if (!el) return;
 
+    // Reduced motion: show immediately, no slide/fade.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(el, { opacity: 1, x: 0, y: 0 });
+      return;
+    }
+
     const x = direction === 'left' ? -distance : direction === 'right' ? distance : 0;
     const y = direction === 'up' ? distance : 0;
 

@@ -63,29 +63,12 @@ export default function AnimatedHero() {
       </p>
 
       <div className="r-hero-btns">
-        <Link href="/projects" className="hero-btn" style={{
-          background: '#6D28D9', color: '#fff',
-          fontFamily: 'var(--font-oswald), sans-serif',
-          fontWeight: 600, fontSize: '0.8rem', letterSpacing: '0.1em',
-          textTransform: 'uppercase', padding: '0.9rem 2.1rem',
-          textDecoration: 'none', display: 'inline-block', borderRadius: '2px',
-          transition: 'background 0.2s',
-        }}
-          onMouseEnter={e => { e.currentTarget.style.background = '#5B21B6'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = '#6D28D9'; }}
-        >View Our Projects</Link>
-
-        <Link href="/contact" className="hero-btn" style={{
-          border: '1px solid rgba(230,220,208,0.22)', color: 'rgba(230,220,208,0.75)',
-          fontFamily: 'var(--font-oswald), sans-serif',
-          fontWeight: 500, fontSize: '0.8rem', letterSpacing: '0.1em',
-          textTransform: 'uppercase', padding: '0.9rem 2.1rem',
-          textDecoration: 'none', display: 'inline-block', borderRadius: '2px',
-          transition: 'border-color 0.2s, color 0.2s',
-        }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(230,220,208,0.5)'; e.currentTarget.style.color = '#F2EDE6'; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(230,220,208,0.22)'; e.currentTarget.style.color = 'rgba(230,220,208,0.75)'; }}
-        >Get in Touch</Link>
+        <Link href="/projects" className="hero-btn tdc-btn tdc-btn--fill">
+          View Our Projects
+        </Link>
+        <Link href="/contact" className="hero-btn tdc-btn tdc-btn--ghost-dark">
+          Get in Touch
+        </Link>
       </div>
     </div>
   );

@@ -195,14 +195,9 @@ export default function HomePage() {
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', marginBottom: '2.5rem', fontFamily: 'var(--font-barlow), sans-serif' }}>
               Bring your construction project to life with Uganda&apos;s most experienced engineering team.
             </p>
-            <Link href="/contact" style={{
-              background: '#FFFFFF', color: '#6D28D9',
-              fontFamily: 'var(--font-oswald), sans-serif',
-              fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.12em',
-              textTransform: 'uppercase', padding: '1rem 2.5rem',
-              textDecoration: 'none', display: 'inline-block', borderRadius: '2px',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-            }}>Start Your Project</Link>
+            <Link href="/contact" className="tdc-btn tdc-btn--invert">
+              Start Your Project
+            </Link>
           </div>
         </ScrollReveal>
       </section>
