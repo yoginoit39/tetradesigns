@@ -46,3 +46,6 @@ next-env.d.ts
 home-page.png
 /video.mov
 deploy.zip
+
+# original showreel (kept out of the repo)
+public/video.mov
