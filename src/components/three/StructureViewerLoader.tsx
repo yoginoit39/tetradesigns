@@ -9,8 +9,9 @@ const StructureViewer = dynamic(
     loading: () => (
       <div style={{
         height: '420px',
-        background: 'linear-gradient(155deg, #040918 0%, #080F28 60%, #050818 100%)',
-        border: '1px solid rgba(109,40,217,0.18)',
+        background: 'radial-gradient(ellipse at 50% 40%, #16121F 0%, #0C0A09 70%)',
+        border: '1px solid rgba(109,40,217,0.22)',
+        borderRadius: '4px',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
         <div style={{
