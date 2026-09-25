@@ -1,5 +1,6 @@
 import { stats, services, siteConfig } from '@/lib/data';
 import StructureViewerLoader from '@/components/three/StructureViewerLoader';
+import LightBackdrop from '@/components/LightBackdrop';
 
 export const metadata = {
   title: 'About Us — Engineering Excellence Since 1994',
@@ -22,6 +23,7 @@ const values = [
 export default function AboutPage() {
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>
+      <LightBackdrop />
 
       {/* ── PAGE HEADER ───────────────────────────────── */}
       <section style={{

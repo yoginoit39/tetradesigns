@@ -1,5 +1,6 @@
 import { projects } from '@/lib/data';
 import ProjectsGrid from '@/components/ProjectsGrid';
+import LightBackdrop from '@/components/LightBackdrop';
 
 export const metadata = {
   title: 'Our Projects — Civil & Structural Engineering Portfolio Uganda',
@@ -18,6 +19,7 @@ const allCategories = ['All', ...Array.from(new Set(projects.map(p => p.category
 export default function ProjectsPage() {
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>
+      <LightBackdrop />
 
       {/* ── PAGE HEADER ───────────────────────────────── */}
       <section style={{

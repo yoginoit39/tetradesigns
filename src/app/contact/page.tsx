@@ -1,5 +1,6 @@
 import { siteConfig } from '@/lib/data';
 import ContactForm from '@/components/ContactForm';
+import LightBackdrop from '@/components/LightBackdrop';
 
 export const metadata = {
   title: 'Contact Us — Start Your Engineering Project',
@@ -30,6 +31,7 @@ const contactDetails = [
 export default function ContactPage() {
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>
+      <LightBackdrop />
 
       {/* ── PAGE HEADER ───────────────────────────────── */}
       <section style={{

@@ -316,6 +316,47 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ─────────────────────────────────────────────────
+   LIGHT-PAGE BACKDROP — drafting grid + drifting
+   lavender washes, multiply-blended over the page.
+   ───────────────────────────────────────────────── */
+.light-backdrop {
+  position: fixed; inset: 0; z-index: 5;
+  pointer-events: none; overflow: hidden;
+  mix-blend-mode: multiply;
+}
+.lb-blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(70px); will-change: transform;
+}
+.lb-1 {
+  width: 60vw; height: 60vw; left: -18vw; top: -24vh;
+  background: radial-gradient(circle, rgba(196,181,253,0.62) 0%, rgba(196,181,253,0) 66%);
+  animation: lbDrift1 28s ease-in-out infinite alternate;
+}
+.lb-2 {
+  width: 48vw; height: 48vw; right: -14vw; top: 18vh;
+  background: radial-gradient(circle, rgba(167,139,250,0.5) 0%, rgba(167,139,250,0) 66%);
+  animation: lbDrift2 34s ease-in-out infinite alternate;
+}
+.lb-3 {
+  width: 54vw; height: 54vw; left: 18vw; bottom: -30vh;
+  background: radial-gradient(circle, rgba(221,214,254,0.7) 0%, rgba(221,214,254,0) 66%);
+  animation: lbDrift3 40s ease-in-out infinite alternate;
+}
+.lb-4 {
+  width: 42vw; height: 42vw; right: 8vw; bottom: -12vh;
+  background: radial-gradient(circle, rgba(233,213,255,0.55) 0%, rgba(233,213,255,0) 66%);
+  animation: lbDrift4 46s ease-in-out infinite alternate;
+}
+@keyframes lbDrift4 { to { transform: translate(-10vw, -14vh) scale(1.1); } }
+@keyframes lbDrift1 { to { transform: translate(14vw, 12vh) scale(1.08); } }
+@keyframes lbDrift2 { to { transform: translate(-12vw, 16vh) scale(0.94); } }
+@keyframes lbDrift3 { to { transform: translate(-16vw, -10vh) scale(1.06); } }
+@media (prefers-reduced-motion: reduce) {
+  .lb-blob { animation: none !important; }
+}
+
 /* ── Contact form: stack paired fields on phones ── */
 @media (max-width: 640px) {
   .form-row { grid-template-columns: 1fr !important; }
