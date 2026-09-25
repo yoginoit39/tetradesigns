@@ -134,7 +134,7 @@ export default function ContactForm() {
           aria-hidden="true"
         />
         {/* Name + Email row */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div>
             <label style={labelStyle}>Full Name *</label>
             <input
@@ -164,7 +164,7 @@ export default function ContactForm() {
         </div>
 
         {/* Phone + Project type row */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div>
             <label style={labelStyle}>Phone Number</label>
             <input

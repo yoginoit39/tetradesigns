@@ -316,6 +316,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ── Contact form: stack paired fields on phones ── */
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr !important; }
+}
+
 /* ── Section dot nav — hide where it would crowd content ── */
 @media (max-width: 1100px) {
   .section-nav { display: none !important; }
@@ -369,7 +374,10 @@ header { animation: navSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 /* ── Hero heading (Syne is wide — no maxWidth container, cap at 4rem) ── */
 .hero-heading { font-size: clamp(2rem, 4vw, 4rem); }
 @media (max-width: 900px) {
-  .hero-heading { font-size: clamp(1.35rem, 6.5vw, 3.5rem); }
+  .hero-heading { font-size: clamp(1.2rem, 5.6vw, 3.5rem); }
+}
+@media (max-width: 420px) {
+  .hero-heading { font-size: clamp(1.1rem, 5.3vw, 3.5rem); }
 }
 
 /* ── Hero image panel responsive ── */
