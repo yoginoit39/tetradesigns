@@ -4,6 +4,9 @@ import './globals.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
+import SmoothScroll from '@/components/SmoothScroll';
+import ScrollProgress from '@/components/ScrollProgress';
+import Preloader from '@/components/Preloader';
 
 const oswald = Syne({
   subsets: ['latin'],
@@ -125,6 +128,9 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
       </head>
       <body>
+        <Preloader />
+        <SmoothScroll />
+        <ScrollProgress />
         <CustomCursor />
         <Navigation />
         <main>{children}</main>

@@ -60,8 +60,8 @@ export default function ServicesSection() {
           {services.map((service, i) => (
             <ScrollReveal
               key={service.id}
-              delay={i * 80}
-              direction="up"
+              delay={i * 90}
+              variant="scale"
               style={{ height: '100%' }}
             >
               <div

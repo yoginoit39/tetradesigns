@@ -23,7 +23,7 @@ function BentoCard({
   const isWide  = variant === 'wide';
 
   return (
-    <ScrollReveal delay={delay} direction="up" style={{ ...style, position: 'relative' }}>
+    <ScrollReveal delay={delay} variant="scale" style={{ ...style, position: 'relative' }}>
       <div
         className="project-card-dark"
         style={{

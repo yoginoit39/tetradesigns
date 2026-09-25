@@ -9,6 +9,8 @@ import Marquee from '@/components/Marquee';
 import HeroBuildingLoader from '@/components/three/HeroBuildingLoader';
 import BentoProjectsGallery from '@/components/BentoProjectsGallery';
 import ServicesSection from '@/components/ServicesSection';
+import Parallax from '@/components/Parallax';
+import SectionNav from '@/components/SectionNav';
 
 export const metadata: Metadata = {
   title: 'Civil & Structural Engineering Uganda | 30+ Years of Excellence',
@@ -20,8 +22,16 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <SectionNav sections={[
+        { id: 'hero', label: 'Home' },
+        { id: 'services', label: 'Services' },
+        { id: 'projects', label: 'Projects' },
+        { id: 'why', label: 'Why Tetra' },
+        { id: 'contact-cta', label: 'Contact' },
+      ]} />
+
       {/* ── HERO ──────────────────────────────────────── */}
-      <section style={{
+      <section id="hero" style={{
         height: '100svh', minHeight: '640px',
         position: 'relative', zIndex: 1,
         overflow: 'hidden', background: '#0C0A09',
@@ -111,33 +121,38 @@ export default function HomePage() {
           }} />
           <div style={{
             position: 'absolute', inset: 0,
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.9rem',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={{ width: '36px', height: '1px', background: 'rgba(255,255,255,0.35)' }} />
-              <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.62rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>Showreel</span>
-              <span style={{ width: '36px', height: '1px', background: 'rgba(255,255,255,0.35)' }} />
-            </div>
-            <h2 style={{
-              fontFamily: 'var(--font-oswald), sans-serif',
-              fontSize: 'clamp(1.5rem, 4vw, 3.5rem)',
-              fontWeight: 700, textTransform: 'uppercase',
-              color: '#FFFFFF', textAlign: 'center', lineHeight: 1,
-              padding: '0 1rem',
-            }}>Engineering in Motion</h2>
+            <Parallax amount={140} style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.9rem',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <span style={{ width: '36px', height: '1px', background: 'rgba(255,255,255,0.35)' }} />
+                <span style={{ fontFamily: 'var(--font-barlow), sans-serif', fontSize: '0.62rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>Showreel</span>
+                <span style={{ width: '36px', height: '1px', background: 'rgba(255,255,255,0.35)' }} />
+              </div>
+              <h2 style={{
+                fontFamily: 'var(--font-oswald), sans-serif',
+                fontSize: 'clamp(1.5rem, 4vw, 3.5rem)',
+                fontWeight: 700, textTransform: 'uppercase',
+                color: '#FFFFFF', textAlign: 'center', lineHeight: 1,
+                padding: '0 1rem',
+              }}>Engineering in Motion</h2>
+            </Parallax>
           </div>
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3px', background: '#6D28D9' }} />
         </div>
       </section>
 
       {/* ── SERVICES ──────────────────────────────────── */}
-      <ServicesSection />
+      <div id="services"><ServicesSection /></div>
 
       {/* ── FEATURED PROJECTS — scrubbed bento gallery ── */}
-      <BentoProjectsGallery />
+      <div id="projects"><BentoProjectsGallery /></div>
 
       {/* ── WHY TETRA ─────────────────────────────────── */}
       <section
+        id="why"
         style={{ background: '#F2EDE6', position: 'relative', zIndex: 1 }}
         className="r-section"
       >
@@ -155,7 +170,7 @@ export default function HomePage() {
               { num: '03', title: 'Fully Licensed', body: 'Fully registered and licensed engineers operating to the highest professional standards in Uganda.' },
               { num: '04', title: 'Local Expertise', body: 'Deep knowledge of Ugandan terrain, regulation, and construction practice built over 30 years.' },
             ].map((item, i) => (
-              <ScrollReveal key={item.num} delay={i * 80} direction="up">
+              <ScrollReveal key={item.num} delay={i * 90} variant="scale">
                 <div className="card-dark" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.05)', padding: '2.5rem', height: '100%' }}>
                   <div style={{ fontFamily: 'var(--font-oswald), sans-serif', fontSize: '2rem', fontWeight: 700, color: 'rgba(109,40,217,0.1)', marginBottom: '0.75rem' }}>{item.num}</div>
                   <h3 style={{ fontFamily: 'var(--font-oswald), sans-serif', fontSize: '1.1rem', fontWeight: 600, textTransform: 'uppercase', color: '#6D28D9', marginBottom: '0.65rem', letterSpacing: '0.06em' }}>{item.title}</h3>
@@ -173,7 +188,7 @@ export default function HomePage() {
       </div>
 
       {/* ── CTA BAND ──────────────────────────────────── */}
-      <section style={{
+      <section id="contact-cta" style={{
         background: '#6D28D9', textAlign: 'center',
         position: 'relative', zIndex: 1, overflow: 'hidden',
         padding: 'clamp(3.5rem, 8vw, 6rem) 1.5rem',
