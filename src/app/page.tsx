@@ -109,11 +109,10 @@ export default function HomePage() {
       {/* ── SHOWREEL ──────────────────────────────────── */}
       <section style={{ position: 'relative', zIndex: 1, overflow: 'hidden' }}>
         <div className="showreel-ratio" style={{ position: 'relative', width: '100%', background: '#0C0A09' }}>
-          <video autoPlay muted loop playsInline style={{
+          <video autoPlay muted loop playsInline preload="metadata" poster="/video-poster.jpg" style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
           }}>
-            <source src="/video.mov" type="video/quicktime" />
-            <source src="/video.mov" type="video/mp4" />
+            <source src="/video.mp4" type="video/mp4" />
           </video>
           <div style={{
             position: 'absolute', inset: 0,
